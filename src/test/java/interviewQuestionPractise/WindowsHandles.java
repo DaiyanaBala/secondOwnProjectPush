@@ -1,0 +1,33 @@
+package interviewQuestionPractise;
+
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WindowsHandles {
+
+	public static void main(String[] args) throws InterruptedException {
+		WebDriver driver=new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://the-internet.herokuapp.com/windows");
+		String mainWindows=driver.getWindowHandle();
+		driver.findElement(By.xpath("//a[text()=\"Click Here\"]")).click();
+		Thread.sleep(2000);
+		Set<String> allWindows=driver.getWindowHandles();
+		for(String windows:allWindows) {
+			if(!windows.equals(mainWindows)) {
+				driver.switchTo().window(windows);
+				break;
+			}
+		}
+		System.out.println("current page tilte : "+driver.getTitle());
+		driver.close();
+		
+		driver.switchTo().window(mainWindows);
+		System.out.println("main window tilte : "+driver.getTitle());
+	}
+
+}
